@@ -1,0 +1,71 @@
+name: Deploy prototype to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build static prototype
+        env:
+          GITHUB_PAGES_BASE: /${{ github.event.repository.name }}/
+        run: npm run build
+
+      - name: Prepare Pages artifact
+        run: |
+          if [ -d ".output/public" ]; then
+            BUILD_DIR=".output/public"
+          elif [ -d "dist" ]; then
+            BUILD_DIR="dist"
+          else
+            echo "Could not find .output/public or dist build directory"
+            exit 1
+          fi
+
+          touch "$BUILD_DIR/.nojekyll"
+
+          # SPA fallback for direct links/refreshes on GitHub Pages.
+          if [ -f "$BUILD_DIR/index.html" ]; then
+            cp "$BUILD_DIR/index.html" "$BUILD_DIR/404.html"
+          fi
+
+          echo "BUILD_DIR=$BUILD_DIR" >> "$GITHUB_ENV"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.BUILD_DIR }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

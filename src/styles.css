@@ -1,0 +1,174 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Kvaliteta d.o.o. — Cloud White design system
+ * Paleta: clean, airy, premium industrial
+ * Tipografija: Urbanist (headings) + Epilogue (body)
+ */
+
+@theme inline {
+  --font-display: "Urbanist", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Epilogue", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-accent-glow: var(--accent-glow);
+}
+
+:root {
+  --radius: 0.875rem;
+
+  /* Cloud White core */
+  --background: oklch(0.992 0.002 247);
+  --foreground: oklch(0.18 0.04 260);
+  --surface: oklch(0.97 0.006 247);
+  --surface-elevated: oklch(1 0 0);
+  --ink: oklch(0.18 0.04 260);
+  --ink-soft: oklch(0.45 0.03 257);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.04 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.04 260);
+
+  --primary: oklch(0.55 0.18 258);          /* #3b82f6 vivid blue */
+  --primary-foreground: oklch(0.99 0.003 247);
+  --accent-glow: oklch(0.72 0.14 245);
+
+  --secondary: oklch(0.96 0.008 247);
+  --secondary-foreground: oklch(0.2 0.04 260);
+  --muted: oklch(0.95 0.008 247);
+  --muted-foreground: oklch(0.5 0.025 257);
+  --accent: oklch(0.93 0.02 247);
+  --accent-foreground: oklch(0.2 0.04 260);
+  --destructive: oklch(0.6 0.22 27);
+  --destructive-foreground: oklch(0.99 0.003 247);
+  --border: oklch(0.91 0.012 250);
+  --input: oklch(0.91 0.012 250);
+  --ring: oklch(0.55 0.18 258);
+
+  --chart-1: oklch(0.55 0.18 258);
+  --chart-2: oklch(0.7 0.12 220);
+  --chart-3: oklch(0.6 0.04 257);
+  --chart-4: oklch(0.78 0.1 240);
+  --chart-5: oklch(0.4 0.05 260);
+
+  --shadow-elegant: 0 30px 80px -40px color-mix(in oklab, var(--primary) 35%, transparent),
+                    0 10px 30px -20px color-mix(in oklab, var(--ink) 15%, transparent);
+  --shadow-soft: 0 1px 2px color-mix(in oklab, var(--ink) 5%, transparent),
+                 0 8px 24px -12px color-mix(in oklab, var(--ink) 10%, transparent);
+
+  --gradient-hero: radial-gradient(120% 80% at 50% 0%,
+      color-mix(in oklab, var(--primary) 12%, transparent) 0%,
+      transparent 60%),
+    linear-gradient(180deg, var(--background) 0%, var(--surface) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--primary) 0%, var(--accent-glow) 100%);
+  --gradient-text: linear-gradient(120deg, oklch(0.2 0.04 260), oklch(0.45 0.16 258));
+}
+
+.dark {
+  --background: oklch(0.13 0.03 260);
+  --foreground: oklch(0.98 0.003 247);
+  --surface: oklch(0.17 0.035 260);
+  --surface-elevated: oklch(0.21 0.04 260);
+  --ink: oklch(0.98 0.003 247);
+  --ink-soft: oklch(0.75 0.02 250);
+  --card: oklch(0.18 0.035 260);
+  --card-foreground: oklch(0.98 0.003 247);
+  --popover: oklch(0.18 0.035 260);
+  --popover-foreground: oklch(0.98 0.003 247);
+  --primary: oklch(0.72 0.14 245);
+  --primary-foreground: oklch(0.13 0.03 260);
+  --secondary: oklch(0.25 0.04 260);
+  --secondary-foreground: oklch(0.98 0.003 247);
+  --muted: oklch(0.24 0.04 260);
+  --muted-foreground: oklch(0.72 0.02 250);
+  --accent: oklch(0.28 0.05 260);
+  --accent-foreground: oklch(0.98 0.003 247);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.72 0.14 245);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
+  ::selection { background: color-mix(in oklab, var(--primary) 25%, transparent); }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-hero { background: var(--gradient-hero); }
+  .bg-accent-gradient { background: var(--gradient-accent); }
+  .shadow-elegant { box-shadow: var(--shadow-elegant); }
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+  .glass {
+    background: color-mix(in oklab, var(--surface-elevated) 70%, transparent);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+  }
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--ink) 6%, transparent) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+  }
+  .preserve-3d { transform-style: preserve-3d; }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(2deg); }
+}
+.animate-float-slow { animation: float-slow 9s ease-in-out infinite; }
+
+@keyframes shimmer-line {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
