@@ -17,6 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,24 +35,28 @@ jobs:
           GITHUB_PAGES_BASE: /${{ github.event.repository.name }}/
         run: npm run build
 
-      - name: Prepare Pages artifact
+      - name: Find correct build folder
         run: |
-          if [ -d ".output/public" ]; then
+          echo "Searching for index.html..."
+          find . -maxdepth 5 -type f -name "index.html" -print
+
+          if [ -f ".output/public/index.html" ]; then
             BUILD_DIR=".output/public"
-          elif [ -d "dist" ]; then
+          elif [ -f "dist/index.html" ]; then
             BUILD_DIR="dist"
+          elif [ -f ".output/public/client/index.html" ]; then
+            BUILD_DIR=".output/public/client"
+          elif [ -f "dist/client/index.html" ]; then
+            BUILD_DIR="dist/client"
           else
-            echo "Could not find .output/public or dist build directory"
+            echo "ERROR: No index.html found in expected build folders."
             exit 1
           fi
 
           touch "$BUILD_DIR/.nojekyll"
+          cp "$BUILD_DIR/index.html" "$BUILD_DIR/404.html"
 
-          # SPA fallback for direct links/refreshes on GitHub Pages.
-          if [ -f "$BUILD_DIR/index.html" ]; then
-            cp "$BUILD_DIR/index.html" "$BUILD_DIR/404.html"
-          fi
-
+          echo "Using build folder: $BUILD_DIR"
           echo "BUILD_DIR=$BUILD_DIR" >> "$GITHUB_ENV"
 
       - name: Upload artifact
@@ -62,9 +67,11 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
